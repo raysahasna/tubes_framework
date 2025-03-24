@@ -35,8 +35,7 @@ class PelangganResource extends Resource
             ->schema([
                 TextInput::make('id_pelanggan')
                 ->label('Id Pelanggan')
-                ->default(fn () => Pelanggan::getIdPelanggan()) // Ambil default dari method getIdPelanggan
-                ->label('id_pelanggan')
+                ->default(fn () => Pelanggan::getIdPelanggan()) // Ambil default dari method getIdPelanggan                
                 ->required()
                 ->readonly() // Membuat field menjadi read-only
                 ,

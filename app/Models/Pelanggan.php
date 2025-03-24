@@ -20,7 +20,7 @@ class Pelanggan extends Model
     public static function getIdPelanggan()
     {
         // query kode perusahaan
-        $sql = "SELECT IFNULL(MAX(id_pelanggan), 'AB000') as id_pelanggan
+        $sql = "SELECT IFNULL(MAX(id_pelanggan), 'PL000') as id_pelanggan
                 FROM pelanggan";
         $idpelanggan = DB::select($sql);
 
