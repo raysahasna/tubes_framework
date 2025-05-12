@@ -37,7 +37,6 @@ class ProdukResource extends Resource
                     ->required()
                     ->numeric() // Ensure it's a number
                     ->minValue(0)
-                    ->live()
                     ->placeholder('Masukkan Harga Produk')
                     ->afterStateUpdated(fn ($state, callable $set) =>
                         $set('harga_produk', number_format((int) str_replace('.', '', $state), 0, ',', '.'))
@@ -88,16 +87,18 @@ class ProdukResource extends Resource
                 ),
     
 
-                ])
-                ->filters([])
-                ->actions([
-                    ViewAction::make(),
-                    EditAction::make(),
-                    DeleteAction::make(),
-                ])
-                ->bulkActions([
-                    DeleteBulkAction::make(),
-                ]);
+            ])
+            ->filters([
+                // Add filters if needed
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
 
     public static function getRelations(): array

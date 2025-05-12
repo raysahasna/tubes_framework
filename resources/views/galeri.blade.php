@@ -1,269 +1,240 @@
 @extends('layout')
 
 @section('konten')
-<body>
+<style>
+    .container-fluid {
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: 100vh; /* Agar background menutupi seluruh tinggi viewport */
+    }
 
-<!-- Tambahan Sweet Alert -->
-@if(session('success'))
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            Swal.fire({
-                title: "Berhasil!",
-                text: "{{ session('success') }}",
-                icon: "success",
-                timer: 3000,
-                showConfirmButton: false
-            });
-        });
-    </script>
-@endif
-<!-- Akhir Tambahan Sweet Alert -->
+    .row {
+        display: flex;
+        gap: 20px;
+    }
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <defs>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="category" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M19 5.5h-6.28l-.32-1a3 3 0 0 0-2.84-2H5a3 3 0 0 0-3 3v13a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-10a3 3 0 0 0-3-3Zm1 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1h4.56a1 1 0 0 1 .95.68l.54 1.64a1 1 0 0 0 .95.68h7a1 1 0 0 1 1 1Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="heart" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="plus" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="minus" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M19 11H5a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="check" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="trash" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1ZM20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2ZM10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="star-outline" viewBox="0 0 15 15">
-      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.5 9.804L5.337 11l.413-2.533L4 6.674l2.418-.37L7.5 4l1.082 2.304l2.418.37l-1.75 1.793L9.663 11L7.5 9.804Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="star-solid" viewBox="0 0 15 15">
-      <path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="search" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="user" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M15.71 12.71a6 6 0 1 0-7.42 0a10 10 0 0 0-6.22 8.18a1 1 0 0 0 2 .22a8 8 0 0 1 15.9 0a1 1 0 0 0 1 .89h.11a1 1 0 0 0 .88-1.1a10 10 0 0 0-6.25-8.19ZM12 12a4 4 0 1 1 4-4a4 4 0 0 1-4 4Z"/>
-    </symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 15 15">
-      <path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
-    </symbol>
-  </defs>
-</svg>
+    .col-md-8 {
+        flex: 0.65; /* Sesuaikan proporsi lebar daftar produk */
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-<div class="preloader-wrapper">
-  <div class="preloader">
-  </div>
-</div>
+    .col-md-4 {
+        flex: 0.35; /* Sesuaikan proporsi lebar keranjang & pembayaran */
+    }
 
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
-  <div class="offcanvas-header justify-content-center">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="order-md-last">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Your cart {{Auth::user()->name}}</span>
-        <span class="badge bg-primary rounded-pill">3</span>
-      </h4>
-      <ul class="list-group mb-3">
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0">Growers cider</h6>
-            <small class="text-body-secondary">Brief description</small>
-          </div>
-          <span class="text-body-secondary">$12</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0">Fresh grapes</h6>
-            <small class="text-body-secondary">Brief description</small>
-          </div>
-          <span class="text-body-secondary">$8</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-          <div>
-            <h6 class="my-0">Heinz tomato ketchup</h6>
-            <small class="text-body-secondary">Brief description</small>
-          </div>
-          <span class="text-body-secondary">$5</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total (USD)</span>
-          <strong>$20</strong>
-        </li>
-      </ul>
+    .row-cols-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
 
-      <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button> <br><br>
-      <a href="/logout" class="w-100 btn btn-danger btn-lg" type="submit">Keluar</a>
-    </div>
-  </div>
-</div>
+    @media (min-width: 576px) {
+        .row-cols-sm-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
 
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch" aria-labelledby="Search">
-  <div class="offcanvas-header justify-content-center">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="order-md-last">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Search</span>
-      </h4>
-      <form role="search" action="index.html" method="get" class="d-flex mt-3 gap-0">
-        <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="What are you looking for?" aria-label="What are you looking for?">
-        <button class="btn btn-dark rounded-end rounded-0" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</div>
+    @media (min-width: 768px) {
+        .row-cols-md-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
 
-<header>
-  <div class="container-fluid">
-    <div class="row py-3 border-bottom">
-      
-      <div class="col-sm-4 col-lg-3 text-center text-sm-start">
-        <div class="main-logo">
-          <a href="index.html">
-            <img src="images/logo.png" alt="logo" class="img-fluid">
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-        <div class="search-bar row bg-light p-2 my-2 rounded-4">
-          <div class="col-md-4 d-none d-md-block">
-            <select class="form-select border-0 bg-transparent">
-              <option>All Categories</option>
-              <option>Groceries</option>
-              <option>Drinks</option>
-              <option>Chocolates</option>
-            </select>
-          </div>
-          <div class="col-11 col-md-7">
-            <form id="search-form" class="text-center" action="index.html" method="post">
-              <input type="text" class="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products" />
-            </form>
-          </div>
-          <div class="col-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
+    @media (min-width: 992px) {
+        .row-cols-lg-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
 
-        <ul class="d-flex justify-content-end list-unstyled m-0">
-          <li class="d-lg-none">
-            <a href="#" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#cart"></use></svg>
-            </a>
-          </li>
-          <li class="d-lg-none">
-            <a href="#" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch" aria-controls="offcanvasSearch">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#search"></use></svg>
-            </a>
-          </li>
-        </ul>
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 
-        <!-- Untuk Icon User -->
-        <ul class="d-flex justify-content-end list-unstyled m-0">
-          <li>
-            <a href="{{ url('/ubahpassword') }}" class="rounded-circle bg-light p-2 mx-1">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
-            </a>
-          </li>
-        </ul>
-        <!-- Akhir Icon User -->
+    .card-img-top {
+        width: 100%;
+        height: auto;
+        object-fit: cover; /* Agar gambar tidak terdistorsi */
+        max-height: 150px; /* Batasi tinggi gambar */
+    }
 
-        <div class="cart text-end d-none d-lg-block dropdown">
-          <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-            <span class="fs-6 text-muted dropdown-toggle">Your Cart</span>
-            <span class="cart-total fs-5 fw-bold">$1290.00</span>
-          </button>
-        </div>
-      </div>
+    .card-body {
+        padding: 10px;
+        text-align: center;
+        flex-grow: 1; /* Agar body card mengisi sisa ruang */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Distribusikan ruang antara elemen */
+    }
 
-    </div>
-  </div>
-  
-</header>
+    .card-title {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
 
+    .btn-outline-primary {
+        font-size: 0.8em;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
 
-<section class="py-5">
-  <div class="container-fluid">
-    
+    .card-header {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .card-body.p-3 {
+        padding: 10px !important;
+    }
+
+    .d-flex.justify-content-between.align-items-center.mb-2 {
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .d-flex.justify-content-between.align-items-center.mb-2:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .input-group.input-group-sm {
+        width: 120px !important; /* Sesuaikan lebar input group */
+    }
+
+    .input-group-sm > .form-control,
+    .input-group-sm > .input-group-text,
+    .input-group-sm > .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8em;
+        border-radius: 4px;
+    }
+
+    .fw-bold.ms-2 {
+        min-width: 60px; /* Agar total item tidak terlalu sempit */
+        text-align: right;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        padding: 0;
+        border-top: 1px solid #ddd;
+        border-radius: 0 0 6px 6px;
+    }
+
+    .btn-success.btn-lg.w-100 {
+        border-radius: 0 0 6px 6px;
+        font-size: 1em;
+        padding: 12px;
+    }
+
+    .form-select.form-select-sm {
+        font-size: 0.8em;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        max-width: 150px;
+    }
+
+    .form-control.form-control-sm.d-inline {
+        font-size: 0.8em;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        max-width: 120px;
+    }
+</style>
+
+<div class="container-fluid py-4">
     <div class="row">
-      <div class="col-md-12">
-
-        <div class="bootstrap-tabs product-tabs">
-          <div class="tabs-header d-flex justify-content-between border-bottom my-5">
-            <h3>Produk Terbaru</h3>
-          </div>
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-             <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                @foreach($barang as $p)
+        <div class="col-md-8">
+            <div class="row mb-3">
                 <div class="col">
-                  <div class="product-item">
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                    <figure>
-                      <a href="{{ Storage::url($p->foto) }}" title="Product Title">
-                        <img src="{{ Storage::url($p->foto) }}" class="tab-image">
-                        <!-- <img src="images/thumb-bananas.png"  class="tab-image"> -->
-                      </a>
-                    </figure>
-                    <h3>{{$p->nama_barang}}</h3>
-                    <span class="qty">{{ $p->stok }} Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> {{ $p->rating }}</span>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="input-group product-qty">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-id="{{ $p->id }}" data-type="minus">
-                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity-{{ $p->id }}" name="quantity" class="form-control input-number" value="1">
-                        <span class="input-group-btn">
-                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-id="{{ $p->id }}" data-type="plus">
-                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                            </button>
-                        </span>
-                      </div>
-                      <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <input type="text" class="form-control" placeholder="Cari...">
+                </div>
+            </div>
+
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4">
+                @foreach($produk as $p)
+                <div class="col mb-4">
+                    <div class="card h-100 shadow-sm text-center">
+                        <img src="{{ Storage::url($p->foto) }}" class="card-img-top img-fluid" alt="{{ $p->nama_barang }}">
+                        <div class="card-body p-2">
+                            <h6 class="card-title mb-1">{{ $p->nama_barang }}</h6>
+                            <div class="text-primary fw-bold">Rp {{ number_format($p->harga, 0, ',', '.') }}</div>
+                            <button class="btn btn-sm btn-outline-primary mt-2 w-100 add-to-cart" data-id="{{ $p->id }}">+ Tambah</button>
+                        </div>
                     </div>
-                  </div>
                 </div>
                 @endforeach
-              </div>
-              <!-- / product-grid -->
-              
-            
-          </div>
+            </div>
         </div>
 
-      </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between">
+                        <strong>Umum</strong>
+                        <div>
+                            <select class="form-select form-select-sm d-inline w-auto">
+                                <option>{{ Auth::user()->name }}</option>
+                            </select>
+                            <input type="date" class="form-control form-control-sm d-inline w-auto" value="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    @foreach($keranjang as $item)
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div>{{ $item->nama_barang }}</div>
+                            <small class="text-muted">Rp {{ number_format($item->harga, 0, ',', '.') }}</small>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                            <input type="text" class="form-control text-center" value="{{ $item->jumlah }}">
+                            <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                        </div>
+                        <div class="fw-bold ms-2">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</div>
+                    </div>
+                    @endforeach
+
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>Sub Total</div>
+                        <div>Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>Diskon</div>
+                        <div>{{ $diskon }}%</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>Penyelesaian</div>
+                        <div>0</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>Pajak</div>
+                        <div>{{ $pajak }}%</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold text-primary fs-5">
+                        <div>Total</div>
+                        <div>Rp {{ number_format($total, 0, ',', '.') }}</div>
+                    </div>
+                </div>
+                <div class="card-footer p-0">
+                    <button class="btn btn-success btn-lg w-100 rounded-0">
+                        Bayar Rp {{ number_format($total, 0, ',', '.') }}
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
-
-
-<!--  -->
-
+</div>
 @endsection
