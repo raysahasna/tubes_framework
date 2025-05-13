@@ -48,4 +48,4 @@ class Produk extends Model
     {
         return $this->hasMany(Keranjang::class);
     }
-}
+
