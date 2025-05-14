@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PenjualanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rute untuk halaman daftar penjualan
+Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+
+// Rute untuk halaman create penjualan
+Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');
+
+// Rute untuk menyimpan data penjualan
+Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');

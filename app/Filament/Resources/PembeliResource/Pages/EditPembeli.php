@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\CoasResource\Pages;
+namespace App\Filament\Resources\PembeliResource\Pages;
 
-use App\Filament\Resources\CoasResource;
+use App\Filament\Resources\PembeliResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCoas extends EditRecord
+class EditPembeli extends EditRecord
 {
-    protected static string $resource = CoasResource::class;
+    protected static string $resource = PembeliResource::class;
 
     protected function getHeaderActions(): array
     {

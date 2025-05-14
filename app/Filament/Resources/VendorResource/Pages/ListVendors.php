@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\CoasResource\Pages;
+namespace App\Filament\Resources\VendorResource\Pages;
 
-use App\Filament\Resources\CoasResource;
+use App\Filament\Resources\VendorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListCoas extends ListRecords
+class ListVendors extends ListRecords
 {
-    protected static string $resource = CoasResource::class;
+    protected static string $resource = VendorResource::class;
 
     protected function getHeaderActions(): array
     {
