@@ -124,6 +124,22 @@ class PembelianBahanBakuResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('detailPembelian')
+    ->label('Detail Pembelian')
+    ->formatStateUsing(function ($state) {
+        if (is_array($state)) {
+            $details = [];
+            foreach ($state as $item) {
+                $bahanBakuId = $item['bahan_baku_id'] ?? 'N/A';
+                $qty = $item['qty'] ?? 'N/A';
+                $details[] = "Bahan Baku ID: {$bahanBakuId}, Qty: {$qty}";
+            }
+            return implode('<br>', $details);
+        }
+        return '-';
+    })
+    ->html()
+    ->wrap(),
             ])
             ->filters([
                 //
