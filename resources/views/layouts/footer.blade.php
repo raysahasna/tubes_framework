@@ -8,10 +8,6 @@
       <i class="fas fa-receipt text-xl"></i>
       <span class="text-sm">Invoice</span>
     </a>
-    <a href="/barang" class="flex flex-col items-center">
-      <i class="fas fa-box text-xl"></i>
-      <span class="text-sm">Barang</span>
-    </a>
   </div>
 
   <script src="https://cdn.tailwindcss.com"></script>
