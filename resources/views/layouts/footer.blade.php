@@ -10,6 +10,7 @@
     </a>
   </div>
 
+  <!-- JS Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>

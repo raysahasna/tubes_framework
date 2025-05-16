@@ -15,14 +15,12 @@ class CustomerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // return $next($request);
         // Cek apakah user sudah login dan memiliki user_group = 'customer'
         if (auth()->check() && auth()->user()->user_group === 'customer') {
             return $next($request); // Lanjut ke request berikutnya
         }
 
-        // Jika bukan admin, redirect ke halaman lain atau tampilkan error
+        // Jika bukan customer, tampilkan error
         return abort(403, 'Anda tidak memiliki akses');
-
     }
 }

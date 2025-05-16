@@ -2,7 +2,10 @@
 
 @section('konten')
 <style>
-    /* Reset beberapa style agar lebih konsisten */
+    body {
+        background-color: rgb(158, 165, 173); /* Warna abu-abu terang sebagai background */
+    }
+
     .card {
         border: 1px solid #ddd;
         border-radius: 4px;
@@ -13,7 +16,6 @@
         padding: 10px;
     }
 
-    /* Style untuk daftar produk */
     .row-cols-2, .row-cols-sm-3, .row-cols-md-4, .row-cols-lg-4 {
         grid-gap: 10px;
     }
@@ -27,7 +29,7 @@
     }
 
     .product-image {
-        max-width: 80px; /* Sesuaikan ukuran gambar */
+        max-width: 80px;
         height: auto;
         margin-bottom: 5px;
     }
@@ -53,7 +55,22 @@
         border-radius: 4px;
     }
 
-    /* Style untuk ringkasan transaksi */
+    .product-card.out-of-stock {
+        filter: grayscale(100%);
+        opacity: 0.7;
+    }
+
+    .product-card.out-of-stock .product-price {
+        color: #666 !important;
+    }
+
+    .product-card.out-of-stock .add-to-cart-btn {
+        background-color: #ccc !important;
+        border-color: #ccc !important;
+        color: #666 !important;
+        cursor: not-allowed !important;
+    }
+
     .transaction-header {
         display: flex;
         justify-content: space-between;
@@ -120,14 +137,14 @@
     .total-row {
         font-size: 1.1em;
         font-weight: bold;
-        color: #28a745; /* Warna hijau untuk total */
+        color: #28a745;
         margin-top: 10px;
         padding-top: 5px;
         border-top: 1px solid #eee;
     }
 
     .pay-button {
-        background-color: #28a745; /* Warna hijau tombol bayar */
+        background-color: #28a745;
         color: white;
         padding: 10px 15px;
         border: none;
@@ -139,7 +156,7 @@
     }
 
     .midtrans-button {
-        background-color: #f9a01b; /* Warna oranye khas Midtrans */
+        background-color: #f9a01b;
         color: white;
         padding: 10px 15px;
         border: none;
@@ -151,7 +168,7 @@
     }
 
     .qris-va-button {
-        background-color: #6772E5; /* Warna ungu Midtrans */
+        background-color: #6772E5;
         color: white;
         padding: 10px 15px;
         border: none;
@@ -168,23 +185,27 @@
         <div class="col-md-8">
             <div class="row mb-3">
                 <div class="col">
-                    <input type="text" class="form-control form-control-sm" placeholder="Cari...">
+                    <form action="{{ route('cari.produk') }}" method="GET">
+                        <input type="text" class="form-control form-control-sm" placeholder="Cari..." name="cari">
+                    </form>
                 </div>
             </div>
 
             <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4">
                 @foreach($produk as $p)
-                <div class="col mb-3">
-                    <div class="card product-card h-100 shadow-sm">
-                        <img src="{{ Storage::url($p->foto) }}" alt="{{ $p->nama_barang }}" class="product-image img-fluid">
-                        <h6 class="product-title">{{ $p->nama_produk }}</h6>
-                        <p class="product-price">Rp {{ number_format($p->harga_produk, 0, ',', '.') }}</p>
-                        <form action="{{ route('tambah.keranjang', $p->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-outline-primary add-to-cart-btn w-100">+ Tambah</button>
-                        </form>
+                    <div class="col mb-3">
+                        <div class="card product-card h-100 shadow-sm {{ $p->stok <= 0 ? 'out-of-stock' : '' }}">
+                            <img src="{{ Storage::url($p->foto) }}" alt="{{ $p->nama_produk }}" class="product-image img-fluid">
+                            <h6 class="product-title">{{ $p->nama_produk }}</h6>
+                            <p class="product-price">Rp {{ number_format($p->harga_produk, 0, ',', '.') }}</p>
+                            <form action="{{ route('tambah.keranjang', $p->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-primary add-to-cart-btn w-100" {{ $p->stok <= 0 ? 'disabled' : '' }}>
+                                    {{ $p->stok <= 0 ? 'Stok Habis' : '+ Tambah' }}
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -204,81 +225,17 @@
 
                     @if(count($keranjang) > 0)
                         @foreach($keranjang as $id => $item)
-                        <div class="transaction-item">
-                            <div class="item-details">
-                                <div>{{ $item['nama_produk'] }}</div>
-                                <small class="text-muted">Rp {{ number_format($item['harga_produk'], 0, ',', '.') }}</small>
-                            </div>
-                            <div class="item-quantity">
-                                <form action="{{ route('kurang.keranjang', $id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="quantity-btn">-</button>
-                                </form>
-                                <input type="text" class="quantity-input" value="{{ $item['jumlah'] }}" readonly>
-                                <form action="{{ route('tambah.keranjang.langsung', $id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="quantity-btn">+</button>
-                                </form>
-                            </div>
-                            <div class="item-subtotal">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</div>
-                            <div>
-                                <form action="{{ route('hapus.keranjang', $id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Hapus</button>
-                                </form>
-                            </div>
-                        </div>
-                        @endforeach
-
-                        <hr>
-                        <div class="transaction-summary">
-                            <div class="summary-row">
-                                <div>Sub Total</div>
-                                <div>Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
-                            </div>
-                            <div class="summary-row">
-                                <div>Diskon</div>
-                                <div>{{ $diskon }}%</div>
-                            </div>
-                            <div class="summary-row">
-                                <div>Penyelesaian</div>
-                                <div>0</div>
-                            </div>
-                            <div class="summary-row">
-                                <div>Pajak</div>
-                                <div>{{ $pajak }}%</div>
-                            </div>
-                            <div class="total-row">
-                                <div>Total</div>
-                                <div>Rp {{ number_format($total, 0, ',', '.') }}</div>
-                            </div>
-                        </div>
-
-                        <form action="{{ route('proses.pembayaran.kasir') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="pay-button">Bayar Tunai: Rp {{ number_format($total, 0, ',', '.') }}</button>
-                        </form>
-
-                        <form action="{{ route('midtrans.process') }}" method="POST" id="midtrans-payment-form">
-                            @csrf
-                            <button type="submit" class="qris-va-button">Bayar dengan QRIS/VA</button>
-                        </form>
-
-                        <a href="{{ route('clear.session') }}" class="btn btn-danger btn-sm mt-2 w-100">Kosongkan Keranjang</a>
-
-                        <script>
-                            document.getElementById('midtrans-payment-form').addEventListener('submit', function(event) {
-                                console.log('Form pembayaran QRIS/VA di-submit!'); // Ubah pesan log
-                            });
-                        </script>
-
-                    @else
-                        <p>Keranjang belanja kosong.</p>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+                            <div class="transaction-item">
+                                <div class="item-details">
+                                    <div>{{ $item['nama_produk'] }}</div>
+                                    <small class="text-muted">Rp {{ number_format($item['harga_produk'], 0, ',', '.') }}</small>
+                                </div>
+                                <div class="item-quantity">
+                                    <form action="{{ route('kurang.keranjang', $id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="quantity-btn">-</button>
+                                    </form>
+                                    <input type="text" class="quantity-input" value="{{ $item['jumlah'] }}" readonly>
+                                    <form action="{{ route('tambah.keranjang.langsung', $id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="quantity-btn">

@@ -330,4 +330,15 @@ public function tampilkanInvoice(Transaksi $transaksi)
         'detailTransaksi' => $detailTransaksi,
     ]);
 }
+public function cariProduk(Request $request)
+    {
+        $cari = $request->input('cari');
+
+        $produk = Produk::where('nama_produk', 'like', "%$cari%")
+            ->orWhere('kode_produk', 'like', "%$cari%")
+            // ->orWhere('deskripsi', 'like', "%$cari%")
+            ->get();
+
+        return view('kasir', ['produk' => $produk, 'keranjang' => session('keranjang', []), 'subtotal' => session('subtotal', 0), 'diskon' => session('diskon', 0), 'pajak' => session('pajak', 0), 'total' => session('total', 0)]);
+    }
 }
