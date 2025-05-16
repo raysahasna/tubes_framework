@@ -67,3 +67,4 @@ class Kernel extends HttpKernel
         'customer' => \App\Http\Middleware\CustomerMiddleware::class,
     ];
 }
+

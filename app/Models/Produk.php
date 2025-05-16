@@ -44,8 +44,11 @@ class Produk extends Model
         $this->attributes['harga_produk'] = str_replace(',', '', $value); // Hapus koma
     }
 
+    /**
+     * Relasi satu ke banyak dengan tabel keranjangs.
+     */
     public function keranjangs()
     {
         return $this->hasMany(Keranjang::class);
     }
-
+}

@@ -117,4 +117,3 @@ class ProdukResource extends Resource
         ];
     }
 }
-

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- masukkan header dari layouts -> header.blade -->
+    <!-- Masukkan header dari layouts -->
     @include('layout/header')
 </head>
 <body>
     Selamat Datang {{ $nama }}
     <hr>
-    
+
     <!-- Masukkan untuk template konten -->
     @yield('konten')
     
     <hr>
-    <!-- masukkan footer dari layouts -> footer.blade -->
+    <!-- Masukkan footer dari layouts -->
     @include('layout/footer')
 </body>
 </html>
